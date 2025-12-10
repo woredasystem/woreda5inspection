@@ -91,7 +91,7 @@
     },
     "hero": {
         "title": "Coordinated, Transparent, Accountable.",
-        "subtitle": "Woreda 9 Service Desk",
+        "subtitle": "የብልጽግና ፓርቲ የኢንስፔክሽንና የሥነምግባር ኮሚሽን",
         "description": "We deliver dignified services, deliberate planning, and responsible communication across education, health, and planning portfolios.",
         "viewMembers": "View Members",
         "leadersMessage": "Leader's Message",
@@ -110,9 +110,6 @@
         "managementMembers": "Commission Management Members",
         "workLeadership": "Work Leadership Members",
         "monitoringCommittees": "Monitoring and Support Sub-committee Members",
-        "monitoringSub1": "3.1) Institution Building Monitoring and Support Sub-committee Members (5)",
-        "monitoringSub2": "3.2) Bodies and Members Rights Monitoring and Support Sub-committee Members (5)",
-        "monitoringSub3": "3.3) Party Finance Document and Property Monitoring and Support (5)",
         "titleCommissionChair": "Commission Committee Chairperson",
         "titleOfficeChair": "Addis Ababa Good Governance Inspection and Ethics Commission Office Chairperson",
         "titleSecretary": "Addis Ababa Good Governance Inspection and Ethics Commission Office Secretary and Office Head",

@@ -71,7 +71,7 @@ const categories: LeaderCategory[] = [
         photo: "/assets/leaders/አታላይ ምህረት.jpg",
       },
       {
-        name: "Unknown",
+        name: "ጥላሁን ሮባ",
         title: "የአዲስ አበባ ብልፅግና የኢንስፔክሽን የስነ ምግባር ኮሚሽን ቅ/ፅ/ቤት ም/ሰብሳቢ",
         photo: "/assets/leaders/unk.jpg",
       },
@@ -87,7 +87,7 @@ const categories: LeaderCategory[] = [
         photo: "/assets/leaders/ሀፍታይ ገ እግዚአብሄር.jpg",
       },
       {
-        name: "Unknown",
+        name: "ጥላሁን ሮባ",
         title: "የአካላትና የአባላት መብት ክትትልና ድጋፍ ንዑስ ኮሚቴ ሰብሳቢ",
         photo: "/assets/leaders/unk.jpg",
       },

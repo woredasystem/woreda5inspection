@@ -29,7 +29,7 @@ export default function Home() {
                     <div className="flex items-center gap-3">
                         <div className="relative h-10 w-10 overflow-hidden rounded-lg">
                             <Image
-                                src="/images.jpg"
+                                src="/logo.jpg"
                                 alt="Logo"
                                 width={40}
                                 height={40}
@@ -48,10 +48,11 @@ export default function Home() {
                         <LanguageSwitcher />
                         <Link
                             href="/admin/login"
-                            className="hidden sm:inline-flex items-center gap-2 rounded-lg bg-[#4169E1] px-5 py-2 text-sm font-semibold text-white transition-all hover:bg-[#3557c7] hover:shadow-lg"
+                            className="inline-flex items-center gap-1.5 sm:gap-2 rounded-lg bg-[#4169E1] px-3 sm:px-5 py-2 text-xs sm:text-sm font-semibold text-white transition-all hover:bg-[#3557c7] hover:shadow-lg"
                         >
-                            <HiLockClosed className="h-4 w-4" />
-                            {t('common.adminLogin')}
+                            <HiLockClosed className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                            <span className="hidden sm:inline">{t('common.adminLogin')}</span>
+                            <span className="sm:hidden">Admin</span>
                         </Link>
                     </div>
                 </div>

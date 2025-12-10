@@ -80,7 +80,7 @@ export default function AdminLoginPage() {
           <div className="text-center lg:text-left">
             <div className="mx-auto lg:mx-0 mb-6 h-16 w-16 relative rounded-xl overflow-hidden">
               <Image
-                src="/images.jpg"
+                src="/logo.jpg"
                 alt="Logo"
                 fill
                 className="object-cover"

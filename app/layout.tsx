@@ -10,7 +10,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Woreda 9 Administration",
+  title: "የብልጽግና ፓርቲ የኢንስፔክሽንና የሥነምግባር ኮሚሽን",
   description:
     "Government-grade portal with leadership, document access, and temporary QR flows.",
 };

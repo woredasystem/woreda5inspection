@@ -44,9 +44,9 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
 });
 
 async function createAdminUser() {
-  const email = process.argv[2] || "admin@woreda9.gov";
+  const email = process.argv[2] || "admin@prosperity-party-commission.gov.et";
   const password = process.argv[3] || "Admin@123456";
-  const woredaId = process.argv[4] || process.env.NEXT_PUBLIC_WOREDA_ID || "woreda-9";
+  const woredaId = process.argv[4] || process.env.NEXT_PUBLIC_WOREDA_ID || "prosperity-party-commission";
 
   console.log(`\n🔐 Creating admin user...`);
   console.log(`📧 Email: ${email}`);
