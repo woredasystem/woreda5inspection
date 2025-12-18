@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { HiHome, HiQrCode, HiDocumentArrowUp, HiDocumentText, HiLockClosed, HiArrowRightOnRectangle, HiUserCircle, HiChartBar, HiCalendar } from "react-icons/hi2";
+import { HiHome, HiQrCode, HiDocumentArrowUp, HiDocumentText, HiLockClosed, HiArrowRightOnRectangle, HiUserCircle, HiChartBar, HiCalendar, HiNewspaper } from "react-icons/hi2";
 import { useTranslations } from 'next-intl';
 import { motion } from "framer-motion";
 import { supabaseBrowser } from "@/lib/supabaseBrowser";
@@ -11,6 +11,7 @@ import { useState } from "react";
 
 const navItems = [
   { href: "/admin/dashboard", label: "dashboard", icon: HiChartBar },
+  { href: "/admin/news", label: "news", icon: HiNewspaper },
   { href: "/admin/upload", label: "upload", icon: HiDocumentArrowUp },
   { href: "/admin/documents", label: "documents", icon: HiDocumentText },
   { href: "/admin/qr-generator", label: "generateQR", icon: HiQrCode },
@@ -77,11 +78,10 @@ export function Sidebar() {
               >
                 <Link
                   href={item.href}
-                  className={`group relative flex items-center gap-3 rounded-xl px-4 py-3.5 text-sm font-semibold transition-all duration-200 ${
-                    isActive
-                      ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/30"
-                      : "text-slate-600 hover:bg-slate-50 hover:text-blue-600"
-                  }`}
+                  className={`group relative flex items-center gap-3 rounded-xl px-4 py-3.5 text-sm font-semibold transition-all duration-200 ${isActive
+                    ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/30"
+                    : "text-slate-600 hover:bg-slate-50 hover:text-blue-600"
+                    }`}
                 >
                   {isActive && (
                     <motion.div
@@ -115,7 +115,7 @@ export function Sidebar() {
             <span>{t('publicSite')}</span>
             <HiArrowRightOnRectangle className="h-4 w-4 ml-auto text-slate-400 group-hover:text-blue-600 transition-colors" />
           </Link>
-          
+
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -139,11 +139,10 @@ export function Sidebar() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`group relative flex flex-col items-center gap-1.5 p-3 rounded-2xl transition-all duration-300 min-w-[60px] ${
-                  isActive
-                    ? "text-blue-600 bg-blue-50"
-                    : "text-slate-400 hover:text-slate-600"
-                }`}
+                className={`group relative flex flex-col items-center gap-1.5 p-3 rounded-2xl transition-all duration-300 min-w-[60px] ${isActive
+                  ? "text-blue-600 bg-blue-50"
+                  : "text-slate-400 hover:text-slate-600"
+                  }`}
               >
                 {isActive && (
                   <motion.div
@@ -153,9 +152,8 @@ export function Sidebar() {
                   />
                 )}
                 <Icon className={`relative z-10 h-6 w-6 ${isActive ? "text-blue-600 scale-110" : ""} transition-transform`} />
-                <span className={`relative z-10 text-[10px] font-bold transition-all duration-300 ${
-                  isActive ? "opacity-100 max-h-4 text-blue-600" : "opacity-0 max-h-0 overflow-hidden"
-                }`}>
+                <span className={`relative z-10 text-[10px] font-bold transition-all duration-300 ${isActive ? "opacity-100 max-h-4 text-blue-600" : "opacity-0 max-h-0 overflow-hidden"
+                  }`}>
                   {t(item.label)}
                 </span>
               </Link>

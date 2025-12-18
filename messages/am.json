@@ -11,6 +11,9 @@
     "admin": {
         "secureAdminPortal": "ደህንነት ያለው የአስተዳዳሪ መግቢያ",
         "adminDescription": "ሰነዶችን ያቀናብሩ፣ የመዳረሻ ጥያቄዎችን ያጸድቁ፣ እና የከተማ ስራዎችን ከተቀናጠደ ደህንነት ያለው ዳሽቦርድ ያቆጣጠሩ።",
+        "news": "ዜና",
+        "newsManagement": "የዜና አስተዳደር",
+        "newsDescription": "ዜናዎችን ይፍጠሩ፣ ያርትዑ እና ያትሙ።",
         "secureAccess": "ደህንነት ያለው መዳረሻ",
         "authorizedOnly": "ለተፈቀዱ ሰራተኞች ብቻ",
         "welcomeBack": "እንኳን ደህና መጡ",

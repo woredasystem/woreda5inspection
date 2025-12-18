@@ -1,8 +1,5 @@
 import { randomUUID } from "crypto";
-import {
-  getSupabaseAdminClient,
-  tryGetSupabaseAdminClient,
-} from "./supabaseAdmin";
+import { getSupabaseServerClient } from "./supabaseServer";
 import { publicEnv } from "./env";
 import { getCurrentUserWoredaId } from "./supabaseServer";
 import type { QrRequestRecord, TemporaryAccessRecord } from "@/types";
@@ -15,8 +12,8 @@ export async function recordQrAccessRequest(args: {
 }): Promise<QrRequestRecord | null> {
   const { code, ipAddress } = args;
   const woredaId = publicEnv.NEXT_PUBLIC_WOREDA_ID;
-  const supabase = tryGetSupabaseAdminClient();
-  
+  const supabase = await getSupabaseServerClient();
+
   if (!supabase) {
     console.error("❌ Cannot record QR request: Supabase client not available");
     return null;
@@ -55,7 +52,7 @@ export async function listRecentQrRequests(
 ): Promise<QrRequestRecord[]> {
   // Get woreda_id from current user's metadata (Option 2)
   const woredaId = await getCurrentUserWoredaId();
-  const supabase = tryGetSupabaseAdminClient();
+  const supabase = await getSupabaseServerClient();
   if (!supabase) {
     return [];
   }
@@ -81,8 +78,8 @@ export async function approveAccessRequest(requestId: string): Promise<{
       Date.now() + EXPIRE_HOURS * 60 * 60 * 1000
     ).toISOString();
 
-    const supabase = getSupabaseAdminClient();
-    
+    const supabase = await getSupabaseServerClient();
+
     // First, create the temporary access token
     const { data: tokenData, error: tokenError } = await supabase
       .from("temporary_access")
@@ -118,8 +115,8 @@ export async function approveAccessRequest(requestId: string): Promise<{
     return { temporaryAccess: tokenData ?? undefined };
   } catch (error) {
     console.error("❌ Unexpected error approving request:", error);
-    return { 
-      error: error instanceof Error ? error.message : "Unknown error" 
+    return {
+      error: error instanceof Error ? error.message : "Unknown error"
     };
   }
 }
@@ -127,7 +124,7 @@ export async function approveAccessRequest(requestId: string): Promise<{
 export async function getQrRequestByCode(
   code: string
 ): Promise<QrRequestRecord | null> {
-  const supabase = tryGetSupabaseAdminClient();
+  const supabase = await getSupabaseServerClient();
   if (!supabase) {
     return null;
   }
@@ -145,14 +142,14 @@ export async function getQrRequestByCode(
 export async function validateTemporaryAccess(
   token: string
 ): Promise<TemporaryAccessRecord | null> {
-  const supabase = tryGetSupabaseAdminClient();
+  const supabase = await getSupabaseServerClient();
   if (!supabase) {
     console.error("❌ Cannot validate access: Supabase client not available");
     return null;
   }
-  
+
   console.log("🔍 Validating temporary access token:", token.substring(0, 10) + "...");
-  
+
   const { data, error } = await supabase
     .from("temporary_access")
     .select("*")

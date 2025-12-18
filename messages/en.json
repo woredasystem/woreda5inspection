@@ -11,6 +11,9 @@
     "admin": {
         "secureAdminPortal": "Secure Admin Portal",
         "adminDescription": "Manage documents, approve access requests, and oversee Woreda operations from a centralized, secure dashboard.",
+        "news": "News",
+        "newsManagement": "News Management",
+        "newsDescription": "Create, edit, and publish news updates.",
         "secureAccess": "Secure Access",
         "authorizedOnly": "Authorized Personnel Only",
         "welcomeBack": "Welcome Back",
@@ -86,7 +89,6 @@
         "unknownError": "Unknown error",
         "successfully": "successfully",
         "dashboard": "Dashboard",
-        "upload": "Upload",
         "publicSite": "Public Site",
         "logout": "Logout",
         "loggingOut": "Logging out..."

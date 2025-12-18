@@ -75,4 +75,18 @@ export interface AppointmentRecord {
   updated_at: string;
 }
 
+export interface NewsRecord {
+  id: string;
+  woreda_id: string;
+  title: string;
+  content: string;
+  summary?: string;
+  cover_image_url?: string;
+  published: boolean;
+  published_at?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+
 

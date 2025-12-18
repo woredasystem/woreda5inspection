@@ -1,4 +1,4 @@
-import { getSupabaseAdminClient } from "./supabaseAdmin";
+import { getSupabaseServerClient } from "./supabaseServer";
 import { requiredEnv, publicEnv } from "./env";
 import type { DocumentUploadRecord } from "@/types";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
@@ -120,7 +120,7 @@ export async function saveDocumentMetadata(args: {
 }): Promise<DocumentUploadRecord> {
   // Get woreda_id from current user's metadata (Option 2)
   const woredaId = await getCurrentUserWoredaId();
-  const supabase = getSupabaseAdminClient();
+  const supabase = await getSupabaseServerClient();
   const { data, error } = await supabase
     .from("uploads")
     .insert({
@@ -149,7 +149,7 @@ export async function saveDocumentMetadata(args: {
 export async function getDocumentsForWoreda(
   woredaId: string
 ): Promise<DocumentUploadRecord[]> {
-  const supabase = getSupabaseAdminClient();
+  const supabase = await getSupabaseServerClient();
   const { data } = await supabase
     .from("uploads")
     .select("*")

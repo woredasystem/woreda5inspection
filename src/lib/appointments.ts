@@ -1,4 +1,4 @@
-import { getSupabaseAdminClient } from "./supabaseAdmin";
+import { getSupabaseServerClient } from "./supabaseServer";
 import { getCurrentUserWoredaId } from "./supabaseServer";
 import { publicEnv } from "./env";
 import { AppointmentRecord } from "@/types";
@@ -37,7 +37,7 @@ export async function createAppointmentRequest(args: {
 
     const gregorianDate = ethiopianToGregorian(ethDate);
 
-    const supabase = getSupabaseAdminClient();
+    const supabase = await getSupabaseServerClient();
 
     const { data, error } = await supabase
       .from("appointments")
@@ -78,7 +78,7 @@ export async function getAppointmentByCode(
   code: string
 ): Promise<AppointmentRecord | null> {
   try {
-    const supabase = getSupabaseAdminClient();
+    const supabase = await getSupabaseServerClient();
 
     const { data, error } = await supabase
       .from("appointments")
@@ -105,7 +105,7 @@ export async function getAppointmentsForCurrentWoreda(): Promise<
 > {
   try {
     const woredaId = await getCurrentUserWoredaId();
-    const supabase = getSupabaseAdminClient();
+    const supabase = await getSupabaseServerClient();
 
     const { data, error } = await supabase
       .from("appointments")
@@ -136,7 +136,7 @@ export async function updateAppointmentStatus(args: {
   rescheduledTime?: string;
 }): Promise<{ appointment: AppointmentRecord | null; error?: string }> {
   try {
-    const supabase = getSupabaseAdminClient();
+    const supabase = await getSupabaseServerClient();
 
     let rescheduledDateGregorian: string | undefined;
     if (args.rescheduledDateEthiopian) {
