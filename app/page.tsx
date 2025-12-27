@@ -10,7 +10,13 @@ import { publicEnv } from "@/lib/env";
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-    const allLeaders = await getLeaders();
+    let allLeaders = [];
+    try {
+        allLeaders = await getLeaders();
+    } catch (error) {
+        console.error("Error fetching leaders:", error);
+        allLeaders = [];
+    }
 
     // Find leaders with messages (speech content)
     const leadersWithMessages = allLeaders.filter(leader => {

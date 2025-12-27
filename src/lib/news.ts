@@ -83,8 +83,13 @@ export async function getNews(limit = 6): Promise<NewsRecord[]> {
     // Fetch photos for each news item
     const newsWithPhotos = await Promise.all(
         (data || []).map(async (item: NewsRecord) => {
-            const photos = await getNewsPhotos(item.id);
-            return { ...item, photos };
+            try {
+                const photos = await getNewsPhotos(item.id);
+                return { ...item, photos };
+            } catch (error) {
+                console.error(`Error fetching photos for news ${item.id}:`, error);
+                return { ...item, photos: [] };
+            }
         })
     );
 
@@ -116,8 +121,13 @@ export async function getAllNews(): Promise<NewsRecord[]> {
     // Fetch photos for each news item
     const newsWithPhotos = await Promise.all(
         (data || []).map(async (item: NewsRecord) => {
-            const photos = await getNewsPhotos(item.id);
-            return { ...item, photos };
+            try {
+                const photos = await getNewsPhotos(item.id);
+                return { ...item, photos };
+            } catch (error) {
+                console.error(`Error fetching photos for news ${item.id}:`, error);
+                return { ...item, photos: [] };
+            }
         })
     );
 
@@ -145,7 +155,13 @@ export async function getNewsItem(id: string): Promise<NewsRecord | null> {
     if (!data) return null;
 
     // Fetch photos for this news item
-    const photos = await getNewsPhotos(id);
+    let photos: NewsPhotoRecord[] = [];
+    try {
+        photos = await getNewsPhotos(id);
+    } catch (error) {
+        console.error(`Error fetching photos for news ${id}:`, error);
+        // Continue without photos rather than failing
+    }
 
     return { ...(data as NewsRecord), photos };
 }

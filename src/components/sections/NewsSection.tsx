@@ -7,7 +7,14 @@ import { cookies } from "next/headers";
 import { getTranslations } from 'next-intl/server';
 
 export async function NewsSection() {
-    const news = await getNews(6);
+    let news = [];
+    try {
+        news = await getNews(6);
+    } catch (error) {
+        console.error("Error fetching news in NewsSection:", error);
+        return null;
+    }
+    
     const cookieStore = await cookies();
     const locale = cookieStore.get('NEXT_LOCALE')?.value || 'en';
     const t = await getTranslations('newsSection');
