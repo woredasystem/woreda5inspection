@@ -8,6 +8,8 @@ import Image from "next/image";
 import { publicEnv } from "@/lib/env";
 import { useTranslations } from 'next-intl';
 
+export const dynamic = 'force-dynamic';
+
 export default function AdminLoginPage() {
   const t = useTranslations('admin');
   const router = useRouter();

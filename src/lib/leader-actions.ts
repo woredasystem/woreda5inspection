@@ -156,32 +156,18 @@ export async function uploadLeaderImage(file: File): Promise<string> {
     const fileName = `leaders-${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
     const filePath = `${woredaId}/${fileName}`;
 
-    // Check if bucket exists by trying to list it
-    const { data: buckets, error: bucketError } = await supabase.storage.listBuckets();
-    if (bucketError) {
-        console.error("Error listing buckets:", bucketError);
-        throw new Error(`Failed to access storage: ${bucketError.message}`);
-    }
-
-    const newsBucket = buckets?.find(b => b.name === 'news');
-    if (!newsBucket) {
-        throw new Error(
-            "Storage bucket 'news' does not exist. " +
-            "Please create a public bucket named 'news' in your Supabase Storage settings."
-        );
-    }
-
+    // Try to upload directly - if bucket doesn't exist, we'll get a clear error
     const { data: uploadData, error: uploadError } = await supabase
         .storage
         .from('news') // Reuse 'news' bucket
         .upload(filePath, file, {
             contentType: file.type || 'image/jpeg',
-            upsert: false,
+            upsert: true, // Allow overwriting if file already exists (shouldn't happen with unique names)
         });
 
     if (uploadError) {
         console.error("Error uploading image:", uploadError);
-        if (uploadError.message.includes('Bucket not found')) {
+        if (uploadError.message.includes('Bucket not found') || uploadError.message.includes('does not exist')) {
             throw new Error(
                 "Storage bucket 'news' not found. " +
                 "Please create a public bucket named 'news' in your Supabase Storage settings."

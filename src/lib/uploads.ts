@@ -21,11 +21,15 @@ export async function uploadDocumentToStorage(args: {
       .from('documents')
       .upload(args.folderPath, args.file, {
         contentType: args.file.type || "application/octet-stream",
-        upsert: false, // Don't overwrite existing files
+        upsert: true, // Allow overwriting existing files
       });
 
     if (uploadError) {
       console.error("Supabase Storage upload error:", uploadError);
+      // Provide a more helpful error message for existing files
+      if (uploadError.message.includes('already exists') || uploadError.message.includes('duplicate')) {
+        throw new Error(`File "${args.file.name}" already exists at this location. The file has been updated.`);
+      }
       throw new Error(`Failed to upload file: ${uploadError.message}`);
     }
 

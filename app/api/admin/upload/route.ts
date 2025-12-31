@@ -1,9 +1,20 @@
 import { NextResponse } from "next/server";
 import { uploadDocumentToStorage, saveDocumentMetadata } from "@/lib/uploads";
 import { getCurrentUserWoredaId } from "@/lib/supabaseServer";
+import { getSupabaseServerClient } from "@/lib/supabaseServer";
 
 export async function POST(request: Request) {
   try {
+    // Verify authentication
+    const supabase = await getSupabaseServerClient();
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    
+    if (authError || !user) {
+      return NextResponse.json(
+        { message: "Unauthorized. Please log in to upload files." },
+        { status: 401 }
+      );
+    }
     const formData = await request.formData();
     const file = formData.get("file") as File | null;
     const categoryId = formData.get("category")?.toString();
