@@ -8,99 +8,112 @@ export async function POST(request: Request) {
     // Verify authentication
     const supabase = await getSupabaseServerClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
-    
+
     if (authError || !user) {
       return NextResponse.json(
         { message: "Unauthorized. Please log in to upload files." },
         { status: 401 }
       );
     }
+
     const formData = await request.formData();
-    const file = formData.get("file") as File | null;
+    // Support both 'files' (multiple) and 'file' (single) for backward compatibility if needed, 
+    // but primarily 'files' from the updated frontend.
+    const files = (formData.getAll("files") as File[]).filter(f => f.size > 0);
+    // Fallback if 'file' was used
+    if (files.length === 0) {
+      const singleFile = formData.get("file") as File | null;
+      if (singleFile) files.push(singleFile);
+    }
+
     const categoryId = formData.get("category")?.toString();
     const subcategoryCode = formData.get("subcategory")?.toString();
     const year = formData.get("year")?.toString();
 
     console.log("Upload request received:", {
-      hasFile: !!file,
-      fileName: file?.name,
+      fileCount: files.length,
       categoryId,
       subcategoryCode,
       year,
     });
 
-    if (!file || !categoryId || !subcategoryCode || !year) {
+    if (files.length === 0 || !categoryId || !subcategoryCode || !year) {
       return NextResponse.json(
         {
-          message: "Missing required upload metadata.",
-          details: { hasFile: !!file, categoryId, subcategoryCode, year }
+          message: "Missing required upload metadata or no files selected.",
+          details: { fileCount: files.length, categoryId, subcategoryCode, year }
         },
         { status: 422 }
       );
     }
 
-    // Get woreda_id from current user's metadata (Option 2)
+    // Get woreda_id from current user's metadata
     const woredaId = await getCurrentUserWoredaId();
-    // Use raw filename for storage key to ensure consistency
-    // We will handle URL encoding when generating the public URL
-    const safeName = file.name;
-    const folderPath = `${woredaId}/${categoryId}/${subcategoryCode}/${year}/${safeName}`;
 
-    console.log("Uploading to Supabase Storage:", folderPath);
+    const results = [];
+    let successCount = 0;
+    let failCount = 0;
 
-    let storageUrl: string;
-    try {
-      storageUrl = await uploadDocumentToStorage({
-        file,
-        folderPath,
-      });
-      console.log("Supabase Storage upload successful:", storageUrl);
-    } catch (storageError) {
-      console.error("Supabase Storage upload failed:", storageError);
-      return NextResponse.json(
-        {
-          message: "Failed to upload file to storage.",
-          error: storageError instanceof Error ? storageError.message : String(storageError)
-        },
-        { status: 500 }
-      );
+    for (const file of files) {
+      try {
+        // Sanitize filename: replace spaces with underscores and remove non-safe characters
+        const safeName = file.name.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_.\-]/g, '');
+        const folderPath = `${woredaId}/${categoryId}/${subcategoryCode}/${year}/${safeName}`;
+
+        console.log(`Processing file: ${file.name} -> ${safeName}`);
+
+        const storageUrl = await uploadDocumentToStorage({
+          file,
+          folderPath,
+        });
+
+        await saveDocumentMetadata({
+          categoryId,
+          subcategoryCode,
+          year,
+          fileName: safeName, // Use sanitized name in DB
+          storageUrl,
+          uploaderId: "admin",
+        });
+
+        results.push({ fileName: file.name, status: "success", storageUrl });
+        successCount++;
+      } catch (error) {
+        console.error(`Failed to process file ${file.name}:`, error);
+        results.push({
+          fileName: file.name,
+          status: "error",
+          error: error instanceof Error ? error.message : String(error)
+        });
+        failCount++;
+      }
     }
 
-    try {
-      await saveDocumentMetadata({
-        categoryId,
-        subcategoryCode,
-        year,
-        fileName: file.name,
-        storageUrl,
-        uploaderId: "admin",
+    if (failCount === 0) {
+      return NextResponse.json({
+        message: `Successfully uploaded ${successCount} document(s).`,
+        results
       });
-      console.log("Metadata saved successfully");
-    } catch (dbError) {
-      console.error("Database save failed:", dbError);
-      return NextResponse.json(
-        {
-          message: "File uploaded but failed to save metadata.",
-          error: dbError instanceof Error ? dbError.message : String(dbError)
-        },
-        { status: 500 }
-      );
+    } else if (successCount > 0) {
+      return NextResponse.json({
+        message: `Uploaded ${successCount} files, but ${failCount} failed.`,
+        results
+      }, { status: 207 }); // 207 Multi-Status
+    } else {
+      return NextResponse.json({
+        message: "Failed to upload files.",
+        results
+      }, { status: 500 });
     }
 
-    return NextResponse.json({ message: "Document uploaded successfully." });
   } catch (error) {
     console.error("Upload error:", error);
-    const message =
-      error instanceof Error
-        ? error.message
-        : "Unhandled error while uploading.";
-    const stack = error instanceof Error ? error.stack : undefined;
+    const message = error instanceof Error ? error.message : "Unhandled error while uploading.";
 
     return NextResponse.json(
       {
         message: `Upload failed: ${message}`,
-        error: message,
-        stack: process.env.NODE_ENV === "development" ? stack : undefined
+        error: message
       },
       { status: 500 }
     );
