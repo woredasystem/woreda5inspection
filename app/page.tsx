@@ -65,7 +65,7 @@ export default async function Home() {
             <CommissionMembers categories={categories} />
 
             {/* Footer */}
-            <Footer woredaName={publicEnv.NEXT_PUBLIC_WOREDA_NAME} />
+            <Footer />
         </div>
     );
 }

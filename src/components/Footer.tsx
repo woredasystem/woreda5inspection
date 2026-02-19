@@ -2,11 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 
-interface FooterProps {
-  woredaName: string;
-}
-
-export function Footer({ woredaName }: FooterProps) {
+export function Footer() {
   const t = useTranslations('footer');
 
   return (
@@ -14,10 +10,7 @@ export function Footer({ woredaName }: FooterProps) {
       <div className="mx-auto max-w-7xl px-6 flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="text-center md:text-left">
           <p className="text-sm font-bold uppercase tracking-widest text-slate-900">
-            {woredaName}
-          </p>
-          <p className="text-xs text-slate-500 mt-1">
-            {t('officialGovernmentPortal')}
+            የ አቃ/ቃ ክ/ከተማ ወረዳ 5 ብልፅግና ኢንስፔክሽን ስነ ምግባር ኮሚሽን
           </p>
         </div>
 

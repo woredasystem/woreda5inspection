@@ -90,7 +90,7 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ id:
                 </article>
             </main>
 
-            <Footer woredaName={publicEnv.NEXT_PUBLIC_WOREDA_NAME} />
+            <Footer />
         </div>
     );
 }
