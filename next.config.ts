@@ -13,7 +13,7 @@ const nextConfig: NextConfig = {
       {
         // Supabase storage host for this project (news images, leader photos, documents)
         protocol: 'https',
-        hostname: 'qypynubfemtvczanrics.supabase.co',
+        hostname: 'boxzzqzkzzeqdqmsvccg.supabase.co',
       },
       {
         protocol: 'https',
