@@ -17,13 +17,13 @@ export default function QrGeneratorPage() {
     // Generate a unique QR code
     const code = `WRD-${Date.now()}-${Math.random().toString(36).substring(2, 9).toUpperCase()}`;
     setQrCode(code);
-    
+
     // Create the request URL
-    const url = typeof window !== "undefined" 
+    const url = typeof window !== "undefined"
       ? `${window.location.origin}/request-access?code=${code}`
       : "";
     setRequestUrl(url);
-    
+
     if (url) {
       // Generate QR code
       QRCode.toDataURL(url, {
@@ -44,7 +44,10 @@ export default function QrGeneratorPage() {
   };
 
   useEffect(() => {
-    generateQR();
+    const timer = setTimeout(() => {
+      generateQR();
+    }, 0);
+    return () => clearTimeout(timer);
   }, []);
 
   const handleDownload = () => {

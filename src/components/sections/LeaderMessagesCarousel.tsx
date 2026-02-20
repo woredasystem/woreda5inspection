@@ -133,7 +133,7 @@ export function LeaderMessagesCarousel({ leaders }: LeaderMessagesCarouselProps)
                             </span>
                         </div>
                         <blockquote className="text-xl md:text-2xl font-medium leading-relaxed text-slate-700 lg:text-3xl">
-                            "{getSpeech(currentLeader)}"
+                            &quot;{getSpeech(currentLeader)}&quot;
                         </blockquote>
                         <div className="pt-4">
                             <div className="h-1 w-24 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full mx-auto lg:mx-0" />
@@ -147,8 +147,8 @@ export function LeaderMessagesCarousel({ leaders }: LeaderMessagesCarouselProps)
                                         key={index}
                                         onClick={() => setCurrentIndex(index)}
                                         className={`h-2 rounded-full transition-all ${index === currentIndex
-                                                ? 'w-8 bg-blue-600'
-                                                : 'w-2 bg-slate-300 hover:bg-slate-400'
+                                            ? 'w-8 bg-blue-600'
+                                            : 'w-2 bg-slate-300 hover:bg-slate-400'
                                             }`}
                                         aria-label={`Go to leader ${index + 1}`}
                                     />
