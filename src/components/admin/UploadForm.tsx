@@ -178,12 +178,12 @@ export function UploadForm() {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className={`inline-flex items-center gap-2 sm:gap-3 rounded-xl px-4 py-3 sm:px-5 sm:py-3.5 text-xs sm:text-sm font-semibold ${status.includes(t('successfully')) || status.includes("success")
+          className={`inline-flex items-center gap-2 sm:gap-3 rounded-xl px-4 py-3 sm:px-5 sm:py-3.5 text-xs sm:text-sm font-semibold ${status.includes(t('successfully')) || status.includes("success") || status.includes("milkaa'inaan") || status.includes("ስርዓት") || status.includes("Milkaa'inaan")
               ? "bg-emerald-50 text-emerald-700 border-2 border-emerald-200"
               : "bg-red-50 text-red-700 border-2 border-red-200"
             }`}
         >
-          {status.includes(t('successfully')) || status.includes("success") ? (
+          {status.includes(t('successfully')) || status.includes("success") || status.includes("milkaa'inaan") || status.includes("ስርዓት") || status.includes("Milkaa'inaan") ? (
             <HiCheckCircle className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
           ) : (
             <HiXCircle className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
