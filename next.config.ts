@@ -13,7 +13,7 @@ const nextConfig: NextConfig = {
       {
         // Supabase storage host for this project (news images, leader photos, documents)
         protocol: 'https',
-        hostname: 'boxzzqzkzzeqdqmsvccg.supabase.co',
+        hostname: new URL(process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co').hostname.replace('https://', ''),
       },
       {
         protocol: 'https',
