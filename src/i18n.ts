@@ -1,5 +1,6 @@
 import { getRequestConfig } from 'next-intl/server';
 import { cookies } from 'next/headers';
+import { WOREDA_NUMBER, WOREDA_NAME } from './lib/constants';
 
 export default getRequestConfig(async () => {
     // Get locale from cookie or default to 'am' (Amharic)
@@ -8,6 +9,12 @@ export default getRequestConfig(async () => {
 
     return {
         locale,
-        messages: (await import(`../messages/${locale}.json`)).default
+        messages: (await import(`../messages/${locale}.json`)).default,
+        now: new Date(),
+        timeZone: 'Africa/Addis_Ababa',
+        globals: {
+            woredaNumber: WOREDA_NUMBER,
+            woredaName: WOREDA_NAME,
+        }
     };
 });
